@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Core\View;
+use App\Models\Post;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
@@ -16,10 +17,11 @@ class Posts extends \Core\Controller {
 	 * @return void
 	 */
 	public function indexAction(): void {
-		// echo 'Hello from the index action in the Posts controller.';
-		// echo '<p>Query string parameters: <pre>' . htmlspecialchars(print_r($_GET, true)) . '</pre></p>';
+		$posts = Post::getAll();
 		try {
-			View::renderTemplate('Posts/index.html');
+			View::renderTemplate('Posts/index.html', [
+				'posts' => $posts
+			]);
 		} catch (LoaderError|RuntimeError|SyntaxError $e) {
 		}
 	}
