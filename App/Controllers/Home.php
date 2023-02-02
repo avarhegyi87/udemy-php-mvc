@@ -2,6 +2,11 @@
 
 namespace App\Controllers;
 
+use \Core\View;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
+
 /**
  * Home controller
  */
@@ -10,7 +15,7 @@ class Home extends \Core\Controller {
 	 * Before filter
 	 * @return void
 	 */
-	protected function before() {
+	protected function before(): void {
 		echo "(before) ";
 	}
 
@@ -18,7 +23,7 @@ class Home extends \Core\Controller {
 	 * After filter
 	 * @return void
 	 */
-	protected function after() {
+	protected function after(): void {
 		echo " (after)";
 	}
 
@@ -26,8 +31,18 @@ class Home extends \Core\Controller {
 	 * Show the index page
 	 * @return void
 	 */
-	public function indexAction() {
-		echo "Hello from the index action in the Home controller!";
+	public function indexAction(): void {
+		/*View::render('Home/index.php', [
+			'name' => 'Adam',
+			'colours' => ['red', 'green', 'blue']
+		]);*/
+		try {
+			View::renderTemplate('Home/index.html', [
+				'name' => 'Adam',
+				'colours' => ['red', 'green', 'blue']
+			]);
+		} catch (LoaderError|RuntimeError|SyntaxError $e) {
+		}
 	}
 
 }
