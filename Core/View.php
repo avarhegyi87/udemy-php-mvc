@@ -2,6 +2,7 @@
 
 namespace Core;
 
+use Exception;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
@@ -15,6 +16,7 @@ class View {
 	 * @param string $view
 	 * @param array $args
 	 * @return void
+	 * @throws Exception
 	 */
 	public static function render(string $view, array $args = []): void {
 		extract($args, EXTR_SKIP);
@@ -22,7 +24,7 @@ class View {
 		if (is_readable($file))
 			require $file;
 		else
-			echo "File not found";
+			throw new Exception("$file not found");
 	}
 
 	/**

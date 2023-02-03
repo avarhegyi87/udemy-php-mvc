@@ -91,16 +91,15 @@ class Router {
 
 				$action = $this->convertToCamelCase($this->params['action']);
 
-				if (preg_match('/actions$/i', $action) === 0)
+				if (is_callable([$controller_object, $action]))
 					$controller_object->$action();
 				else
-					throw new Exception("Method $action in controller cannot be called directly - 
-					remove the Action suffix to call this method");
+					throw new Exception("Method $action in (in controller $controller) not found");
 			} else {
-				echo "Controller class $controller not found.";
+				throw new Exception("Controller class $controller not found");
 			}
 		} else {
-			echo "No route matched.";
+			throw new Exception("No route matched", 404);
 		}
 	}
 

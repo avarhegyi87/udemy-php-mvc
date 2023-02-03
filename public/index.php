@@ -2,8 +2,13 @@
 
 /* Front controller */
 
-// Composer
-require_once dirname(__DIR__) . '/vendor/autoload.php';
+// Composer Autoloader
+require_once '../vendor/autoload.php';
+
+// Error and Exception handling
+error_reporting(E_ALL);
+set_error_handler('Core\Error::errorHandler');
+set_exception_handler('Core\Error::exceptionHandler');
 
 // Routing
 $router = new Core\Router();
@@ -16,7 +21,4 @@ $router->add('{controller}/{id:\d+}/{action}');
 $router->add('admin/{action}/{controller}');
 $router->add('admin/{controller}/{action}', ['namespace' => 'Admin']);
 
-try {
-	$router->dispatch($_SERVER['QUERY_STRING']);
-} catch (Exception $e) {
-}
+$router->dispatch($_SERVER['QUERY_STRING']);

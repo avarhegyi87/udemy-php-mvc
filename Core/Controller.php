@@ -2,6 +2,8 @@
 
 namespace Core;
 
+use Exception;
+
 /**
  * Base controller
  */
@@ -30,6 +32,7 @@ abstract class Controller {
 	 * @param string $name Method name
 	 * @param array $args Arguments passed to the method
 	 * @return void
+	 * @throws Exception
 	 */
 	public function __call(string $name, array $args) {
 		$method = $name . 'Action';
@@ -39,7 +42,7 @@ abstract class Controller {
 				$this->after();
 			}
 		} else {
-			echo "Method $method not found in controller " . get_class($this);
+			throw new Exception("Method $method not found in controller " . get_class($this));
 		}
 	}
 
